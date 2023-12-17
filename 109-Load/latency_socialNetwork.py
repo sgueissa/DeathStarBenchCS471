@@ -50,7 +50,7 @@ def run_load():
 
     start_time = int(datetime.now().timestamp() * 1e6) 
 
-    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
+    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     stdout, stderr = process1.communicate()
 
@@ -73,22 +73,11 @@ def run_load_qos():
 
     start_time = int(datetime.now().timestamp() * 1e6) 
 
-    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
+    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     time.sleep(30)
 
-    process2 = subprocess.Popen(commandToRunLoad2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
-
-    stdout, stderr = process2.communicate()
-
-    end_time = int(datetime.now().timestamp() * 1e6)  
-
-    if process2.returncode != 0:
-        print("Error executing command")
-        print('STDERR:', stderr.decode())
-        exit(1)  # Exit the script with an error code
-
-    subprocess.Popen("cp s s1", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench")
+    process2 = subprocess.Popen(commandToRunLoad2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     stdout, stderr = process1.communicate()
 
