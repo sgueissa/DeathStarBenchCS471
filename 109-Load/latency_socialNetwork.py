@@ -44,7 +44,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 200s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 1500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 16 -d 200s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
@@ -66,8 +66,8 @@ def run_load():
     return start_time, end_time
 
 def run_load_qos():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 300s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 60s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 16 -d 300s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 16 -d 60s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
@@ -113,10 +113,10 @@ def create_graphes(data):
 
     grouped_dfs = df.groupby('ServiceName')
 
-    for service_name, group_df in grouped_dfs:
-        file_path = f"sn_{service_name}.csv"
-        group_df.to_csv(file_path, index=False)
-        print(f"Saved sn_{service_name}.csv")
+    #for service_name, group_df in grouped_dfs:
+    #    file_path = f"sn_{service_name}.csv"
+    #    group_df.to_csv(file_path, index=False)
+    #    print(f"Saved sn_{service_name}.csv")
 
     n_services = len(grouped_dfs)
     n_cols = 2
@@ -150,7 +150,7 @@ def main():
     #    print('STDERR:', stderr.decode())
     #    exit(1)  # Exit the script with an error code
 
-    start_time, end_time = run_load()
+    start_time, end_time = run_load_qos()
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
