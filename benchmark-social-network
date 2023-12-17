@@ -1,0 +1,111 @@
+#!/bin/bash 
+
+# set -e -x 
+# set cpu frequency
+sudo cpupower frequency-set --min 2.45G
+sudo cpupower frequency-set --max 2.45G
+
+
+SCRIPT_TO_CALL="measure-process-CPU-performance"
+DIR="output_SN"
+SIM_TIME=30 # needs to be at least 30 seconds according to Shanqing!
+APPLICATION_DIR="DeathStarBench/socialNetwork"
+
+
+if [ ! -d "$DIR" ]; then
+    sudo mkdir "$DIR"
+fi
+
+# Ensure the script exists and is executable
+if [ ! -f "$SCRIPT_TO_CALL" ] || [ ! -x "$SCRIPT_TO_CALL" ]; then
+    echo "Script $SCRIPT_TO_CALL not found or not executable."
+    exit 1
+fi
+
+printf "Restarting Docker containers... \n"
+
+#Restart docker containers
+cd $APPLICATION_DIR
+
+# List all containers connected to the network and store them in a variable
+#CONTAINERS=$(docker network inspect mediamicroservices_default -f '{{range .Containers}}{{.Name}} {{end}}')
+
+# Loop through each container and disconnect it from the network
+#for container in $CONTAINERS; do
+#	 if docker ps -a --format '{{.Names}}' | grep -wq $container; then
+#		docker network disconnect mediamicroservices_default $container
+#	 else
+#	        echo "Container $container does not exist or is not running."
+#	 fi
+#done
+
+
+docker compose down
+# Remove all containers
+CONTAINER_IDS=$(docker ps -aq)
+
+# Check if there are any container IDs
+if [ -n "$CONTAINER_IDS" ]; then
+        # If there are container IDs, remove the containers
+        docker stop $CONTAINER_IDS
+       	docker rm $CONTAINER_IDS
+else
+	echo "No containers to remove."
+fi
+
+# Check for available Docker volumes
+VOLUMES=$(docker volume ls -q)
+
+if [ -n "$VOLUMES" ]; then
+	# If there are volumes, remove them
+        docker volume rm $VOLUMES
+else
+	echo "No Docker volumes available for removal."
+fi
+
+docker compose  up -d
+
+printf "Generating workload... \n"
+sleep 5
+python3 scripts/init_social_graph.py --graph=socfb-Reed98.
+
+printf "Collecting container PIDs... \n"
+# Get processes info of all running Docker containers
+PIDS=$(docker ps -q | xargs -I {} docker inspect --format '{{.State.Pid}}' {})
+PID_COUNT=$(echo "$PIDS" | wc -l)
+DURATION="$((30 * PID_COUNT))s"
+
+# Generate workload POSTS
+../wrk2/wrk -D exp -t 2 -c 100 -d $DURATION -L -s ./wrk2/scripts/social-network/compose-post.lua http://localhost:8080/wrk2-api/post/compose -R 2000 &
+
+# Generate workload READ_HOME_TIMELINE
+# ../wrk2/wrk -D exp -t 2 -c 100 -d $DURATION -L -s ./wrk2/scripts/social-network/read-home-timeline.lua http://localhost:8080/wrk2-api/home-timeline/read -R 2000 &
+
+# Generate workload READ_USER_TIMELINE
+# ../wrk2/wrk -D exp -t 2 -c 100 -d $DURATION -L -s ./wrk2/scripts/social-network/read-user-timeline.lua http://localhost:8080/wrk2-api/user-timeline/read -R 2000 &
+
+cd ../..
+
+
+printf "Collecting metrics... \n"
+# Iterate over each PID and call the specified script
+for PID in $PIDS; do
+    # Calculate kernel and user time
+    user_time=$(awk '{print $14}' /proc/$PID/stat)
+    kernel_time=$(awk '{print $15}' /proc/$PID/stat)
+    user_wait_time=$(awk '{print $16}' /proc/$PID/stat)
+    kernel_wait_time=$(awk '{print $17}' /proc/$PID/stat)
+    total_user_time=$((total_user_time + user_time + user_wait_time))	
+    total_kernel_time=$((total_kernel_time + kernel_time + kernel_wait_time))
+    sudo ./$SCRIPT_TO_CALL $PID $SIM_TIME $DIR
+done
+
+# Calculate and echo percentages
+total_time=$((total_user_time + total_kernel_time))
+user_percentage=$((total_user_time * 100 / total_time))
+kernel_percentage=$((total_kernel_time * 100 / total_time))
+
+echo "Total User mode Percentage: $user_percentage%" > user_kernel_mode_SN.out
+echo "Total Kernel mode Percentage: $kernel_percentage%" >> user_kernel_mode_SN.out
+
+python3 aggregate_results.py $DIR results_SN

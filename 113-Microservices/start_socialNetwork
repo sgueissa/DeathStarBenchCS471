@@ -1,0 +1,26 @@
+#!/bin/bash
+
+pwd
+
+cd ../DeathStarBench/mediaMicroservices
+
+pwd
+
+# run docker containers
+sudo docker-compose down
+
+sleep 5
+
+cd ..
+
+cd socialNetwork
+
+# run docker containers
+sudo docker-compose down
+sudo docker volume rm $(docker volume ls -q)
+sudo docker-compose up -d
+
+sleep 10
+
+# fill the databases
+python3 scripts/init_social_graph.py --graph=socfb-Reed98
