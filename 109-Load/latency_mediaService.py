@@ -44,7 +44,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 1000"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 16 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
 
     print("Start running load")
 
@@ -66,8 +66,8 @@ def run_load():
     return start_time, end_time
 
 def run_load_qos():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 120s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 1000"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 1000"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 16 -d 300s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 16 -d 60s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
 
     print("Start running load")
 
@@ -150,7 +150,7 @@ def main():
     #    print('STDERR:', stderr.decode())
     #    exit(1)  # Exit the script with an error code
 
-    start_time, end_time = run_load()
+    start_time, end_time = run_load_qos()
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
