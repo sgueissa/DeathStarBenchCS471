@@ -50,7 +50,7 @@ def run_load():
 
     start_time = int(datetime.now().timestamp() * 1e6) 
 
-    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
+    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     stdout, stderr = process1.communicate()
 
@@ -66,29 +66,18 @@ def run_load():
     return start_time, end_time
 
 def run_load_qos():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 1000"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 1000"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
     start_time = int(datetime.now().timestamp() * 1e6) 
 
-    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
+    process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     time.sleep(30)
 
-    process2 = subprocess.Popen(commandToRunLoad2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench/socialNetwork")
-
-    stdout, stderr = process2.communicate()
-
-    end_time = int(datetime.now().timestamp() * 1e6)  
-
-    if process2.returncode != 0:
-        print("Error executing command")
-        print('STDERR:', stderr.decode())
-        exit(1)  # Exit the script with an error code
-
-    subprocess.Popen("cp s s1", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../DeathStarBench")
+    process2 = subprocess.Popen(commandToRunLoad2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
     stdout, stderr = process1.communicate()
 
@@ -161,7 +150,7 @@ def main():
     #    print('STDERR:', stderr.decode())
     #    exit(1)  # Exit the script with an error code
 
-    start_time, end_time = run_load()
+    start_time, end_time = run_load_qos()
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
