@@ -44,7 +44,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 1500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 200s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 1500"
 
     print("Start running load")
 
@@ -150,7 +150,7 @@ def main():
     #    print('STDERR:', stderr.decode())
     #    exit(1)  # Exit the script with an error code
 
-    start_time, end_time = run_load_qos()
+    start_time, end_time = run_load()
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
