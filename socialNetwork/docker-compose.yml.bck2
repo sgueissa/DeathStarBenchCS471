@@ -2,6 +2,7 @@ version: "3.9"
 services:
   social-graph-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "0-3,44-47"
     hostname: social-graph-service
     #    ports:
     #      - 10000:9090
@@ -17,6 +18,7 @@ services:
 
   social-graph-mongodb:
     image: mongo:4.4.6
+    cpuset: "0-3,44-47"
     hostname: social-graph-mongodb
     # ports:
     #   - 27018:27017
@@ -24,6 +26,7 @@ services:
 
   social-graph-redis:
     image: redis
+    cpuset: "0-3,44-47" 
     hostname: social-graph-redis
     # ports:
     #   - 6380:6379
@@ -31,6 +34,7 @@ services:
 
   home-timeline-redis:
     image: redis
+    cpuset: "4-7,40-43"
     hostname: home-timeline-redis
     # ports:
     #   - 6381:6379
@@ -38,6 +42,7 @@ services:
 
   compose-post-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "8-11,36-39"
     hostname: compose-post-service
     #    ports:
     #      - 10001:9090
@@ -51,6 +56,7 @@ services:
 
   post-storage-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "8-11,36-39"
     hostname: post-storage-service
     ports:
       - 10002:9090
@@ -66,6 +72,7 @@ services:
 
   post-storage-memcached:
     image: memcached
+    cpuset: "8-11,36-39"
     hostname: post-storage-memcached
     #    ports:
     #      - 11212:11211
@@ -73,6 +80,7 @@ services:
 
   post-storage-mongodb:
     image: mongo:4.4.6
+    cpuset: "8-11,36-39"
     hostname: post-storage-mongodb
     #    ports:
     #      - 27019:27017
@@ -80,6 +88,7 @@ services:
 
   user-timeline-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "4-7,40-43"
     hostname: user-timeline-service
     #    ports:
     #      - 10003:9090
@@ -95,6 +104,7 @@ services:
 
   user-timeline-redis:
     image: redis
+    cpuset: "4-7,40-43"
     hostname: user-timeline-redis
     #    ports:
     #      - 6383:6379
@@ -102,6 +112,7 @@ services:
 
   user-timeline-mongodb:
     image: mongo:4.4.6
+    cpuset: "4-7,40-43"
     hostname: user-timeline-mongodb
     #    ports:
     #      - 27020:27017
@@ -109,6 +120,7 @@ services:
 
   url-shorten-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "12-15,32-35"
     hostname: url-shorten-service
     #    ports:
     #      - 10004:9090
@@ -124,6 +136,7 @@ services:
 
   url-shorten-memcached:
     image: memcached
+    cpuset: "12-15,32-35"
     hostname: url-shorten-memcached
     #    ports:
     #      - 11213:11211
@@ -131,6 +144,7 @@ services:
 
   url-shorten-mongodb:
     image: mongo:4.4.6
+    cpuset: "12-15,32-35"
     hostname: url-shorten-mongodb
     #    ports:
     #      - 27021:27017
@@ -138,6 +152,7 @@ services:
 
   user-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "16-19,28-31"
     hostname: user-service
     #    ports:
     #      - 10005:9090
@@ -153,6 +168,7 @@ services:
 
   user-memcached:
     image: memcached
+    cpuset: "16-19,28-31"
     hostname: user-memcached
     #    ports:
     #      - 11214:11211
@@ -160,6 +176,7 @@ services:
 
   user-mongodb:
     image: mongo:4.4.6
+    cpuset: "16-19,28-31"
     hostname: user-mongodb
     # ports:
     #   - 27023:27017
@@ -167,6 +184,7 @@ services:
 
   media-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "16-19,28-31"
     hostname: media-service
     #    ports:
     #      - 10006:9090
@@ -182,6 +200,7 @@ services:
 
   media-memcached:
     image: memcached
+    cpuset: "16-19,28-31"
     hostname: media-memcached
     #    ports:
     #      - 11215:11211
@@ -189,6 +208,7 @@ services:
 
   media-mongodb:
     image: mongo:4.4.6
+    cpuset: "16-19,28-31"
     hostname: media-mongodb
     #    ports:
     #      - 27024:27017
@@ -196,6 +216,7 @@ services:
 
   text-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "20-23,24-27"
     hostname: text-service
     #    ports:
     #      - 10007:9090
@@ -209,6 +230,7 @@ services:
 
   unique-id-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "16-19,28-31"
     hostname: unique-id-service
     #    ports:
     #      - 10008:9090
@@ -222,6 +244,7 @@ services:
 
   user-mention-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "20-23,24-27"
     hostname: user-mention-service
     #    ports:
     #      - 10009:9090
@@ -235,6 +258,7 @@ services:
 
   home-timeline-service:
     image: deathstarbench/social-network-microservices:latest
+    cpuset: "4-7,40-43"
     hostname: home-timeline-service
     #    ports:
     #      - 10010:9090
@@ -248,6 +272,7 @@ services:
 
   nginx-thrift:
     image: yg397/openresty-thrift:xenial
+    cpuset: "16-19,28-31"
     hostname: nginx-thrift
     ports:
       - 8080:8080
@@ -265,6 +290,7 @@ services:
 
   media-frontend:
     image: yg397/media-frontend:xenial
+    cpuset: "16-19,28-31"
     hostname: media-frontend
     ports:
       - 8081:8080
@@ -278,6 +304,7 @@ services:
 
   jaeger-agent:
     image: jaegertracing/all-in-one:latest
+    cpuset: "16-19,28-31"
     ports:
       #      - 5775:5775/udp
       #      - 6831:6831/udp
