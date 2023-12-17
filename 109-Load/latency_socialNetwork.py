@@ -66,8 +66,8 @@ def run_load():
     return start_time, end_time
 
 def run_load_qos():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 30s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 6 -c 200 -d 300s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 6 -c 200 -d 60s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
