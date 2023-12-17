@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Check if sufficient arguments are provided
+if [ "$#" -ne 1 ]; then
+	echo "Usage: $0 <Service>"
+	exit 1
+fi
+
+SERVICE="$1"
+SCRIPT_TO_CALL="../measure-process-CPU-performance"
+DIR="output_$SERVICE"
+SIM_TIME=30 # needs to be at least 30 seconds PER PROCESS according to Shanqing!
+
+if [ ! -d "$DIR" ]; then
+	sudo mkdir "$DIR"
+fi
+
+# Ensure the script exists and is executable
+if [ ! -f "$SCRIPT_TO_CALL" ] || [ ! -x "$SCRIPT_TO_CALL" ]; then
+	echo "Script $SCRIPT_TO_CALL not found or not executable."
+	exit 1
+fi
+
+printf "Collecting container PIDs... \n"
+# Get processes info of all running Docker containers
+PIDS=$(docker ps -q | xargs -I {} docker inspect --format '{{.State.Pid}}' {})
+PID_COUNT=$(echo "$PIDS" | wc -l)
+DURATION="$((30 * PID_COUNT))s"
+
+printf "Collecting metrics... \n"
+# Iterate over each PID and call the specified script
+for PID in $PIDS; do
+	# Calculate kernel and user time
+	user_time=$(awk '{print $14}' /proc/$PID/stat)
+	kernel_time=$(awk '{print $15}' /proc/$PID/stat)
+	user_wait_time=$(awk '{print $16}' /proc/$PID/stat)
+	kernel_wait_time=$(awk '{print $17}' /proc/$PID/stat)
+	total_user_time=$((total_user_time + user_time + user_wait_time))
+	total_kernel_time=$((total_kernel_time + kernel_time + kernel_wait_time))
+	sudo ./$SCRIPT_TO_CALL $PID $SIM_TIME $DIR
+done
+
+# Calculate and echo percentages
+total_time=$((total_user_time + total_kernel_time))
+user_percentage=$((total_user_time * 100 / total_time))
+kernel_percentage=$((total_kernel_time * 100 / total_time))
+
+echo "Total User mode Percentage: $user_percentage%" >user_kernel_mode_"$SERVICE".out
+echo "Total Kernel mode Percentage: $kernel_percentage%" >>user_kernel_mode_"$SERVICE".out

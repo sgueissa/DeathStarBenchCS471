@@ -1,12 +1,12 @@
 #!/bin/bash 
  
-SIM_TIME=30s # needs to be at least 30 seconds according to Shanqing!
+SIM_TIME=1000s # needs to be at least 30 seconds PER PROCESS according to Shanqing!
 APPLICATION_DIR="../DeathStarBench/mediaMicroservices"
 
 sleep 5
 printf "Generating workload... \n"
 
 #Generate workload 
-../DeathStarBench/wrk2/wrk -D exp -t 2 -c 100 -d $SIM_TIME -L -s $APPLICATION_DIR/wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 2000 #IP Address of iccluster 113 
+../DeathStarBench/wrk2/wrk -D exp -t 2 -c 100 -d $SIM_TIME -L -s $APPLICATION_DIR/wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500 #IP Address of iccluster 113
 
 printf "End of workload generation. \n"
