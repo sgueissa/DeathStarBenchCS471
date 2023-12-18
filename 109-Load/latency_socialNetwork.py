@@ -44,7 +44,8 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 200s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://localhost:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
@@ -93,7 +94,7 @@ def run_load_qos():
     return start_time, end_time
 
 
-def create_graphes(data):
+def create_latency_graph(data):
     spans = []
     for trace in data:
         processes = {process_id: process_info['serviceName'] for process_id, process_info in trace['processes'].items()}
@@ -134,10 +135,32 @@ def create_graphes(data):
 
     plt.tight_layout()
     plt.savefig('sn_graph.png')
+
+def create_tail_latency_graph():
+    col_name = ["tail_latency"]
+    df = pd.read_fwf('../../DeathStarBenchCS', names=col_name)
+    df.insert(0, 'time', range(0, 0 + len(df)))
+    # Replace any character that is not a digit or period with an empty string
+    df['tail_latency'] = df['tail_latency'].astype(str).str.replace(r'[^\d.]', '', regex=True)
+
+    # Convert the cleaned strings back to numeric type, use errors='coerce' to handle any remaining non-numeric entries
+    df['tail_latency'] = pd.to_numeric(df['tail_latency'], errors='coerce').dropna()
+    df['tail_latency'] = (df['tail_latency'] / 1000).round(2)
+    df['time'] = (df['time'] / 5).round(1)
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(df['time'], df['tail_latency'], marker='o')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Average Latency (ms)')
+    plt.title('99th Percentile Tail Latency')
+    plt.yscale("log")
     
-    return pd.DataFrame(spans)
+    plt.grid(True)
+    plt.savefig('sn_tail_latency.png', format='png', dpi=300)
 
 def main():
+    #jaeger_url = 'http://localhost:16686'
     jaeger_url = 'http://10.90.36.43:16686'
     service_name = 'nginx-web-server'
     #commandToStartDocker = "./start_socialnetwork"
@@ -150,11 +173,12 @@ def main():
     #    print('STDERR:', stderr.decode())
     #    exit(1)  # Exit the script with an error code
 
-    start_time, end_time = run_load_qos()
+    start_time, end_time = run_load()
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
-    df_traces = create_graphes(traces)
+    create_latency_graph(traces)
+    create_tail_latency_graph()
     
 if __name__ == '__main__':
     main()
