@@ -1,0 +1,8 @@
+
+ Performance counter stats for process id '210653':
+
+             Retiring      Bad Speculation       Frontend Bound        Backend Bound     Heavy Operations     Light Operations    Branch Mispredict       Machine Clears        Fetch Latency      Fetch Bandwidth         Memory Bound           Core Bound 
+                9.4%                 7.8%                        68.9%                13.9%                 1.3%                 8.1%                 7.7%                 0.1%                        60.0%                 8.9%                10.1%                 3.8% 
+
+      30.001545185 seconds time elapsed
+

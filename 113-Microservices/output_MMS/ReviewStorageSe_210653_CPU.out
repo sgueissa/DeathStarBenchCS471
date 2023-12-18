@@ -1,0 +1,9 @@
+
+ Performance counter stats for process id '210653':
+
+     3,870,863,776      instructions                     #    0.51  insn per cycle            
+     7,657,288,857      cycles                                                                
+       451,915,317      L1-icache-load-misses                                                 
+
+      30.003519023 seconds time elapsed
+

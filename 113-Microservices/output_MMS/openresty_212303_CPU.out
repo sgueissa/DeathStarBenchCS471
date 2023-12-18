@@ -1,0 +1,13 @@
+
+ Performance counter stats for process id '212303':
+
+     <not counted>      instructions                                                          
+     <not counted>      cycles                                                                
+     <not counted>      L1-icache-load-misses                                                 
+
+      30.001441643 seconds time elapsed
+
+Some events weren't counted. Try disabling the NMI watchdog:
+	echo 0 > /proc/sys/kernel/nmi_watchdog
+	perf stat ...
+	echo 1 > /proc/sys/kernel/nmi_watchdog

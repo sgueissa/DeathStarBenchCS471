@@ -1,0 +1,13 @@
+WARNING: Ignored open failure for pid 2433978
+WARNING: Ignored open failure for pid 2433980
+WARNING: Ignored open failure for pid 2433983
+WARNING: Ignored open failure for pid 2433984
+
+ Performance counter stats for process id '210723':
+
+    33,439,148,109      instructions                     #    0.53  insn per cycle            
+    63,141,838,648      cycles                                                                
+     3,906,515,868      L1-icache-load-misses                                                 
+
+      30.003110408 seconds time elapsed
+

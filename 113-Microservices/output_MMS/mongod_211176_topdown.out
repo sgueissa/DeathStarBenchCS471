@@ -1,0 +1,8 @@
+
+ Performance counter stats for process id '211176':
+
+             Retiring      Bad Speculation       Frontend Bound        Backend Bound     Heavy Operations     Light Operations    Branch Mispredict       Machine Clears        Fetch Latency      Fetch Bandwidth         Memory Bound           Core Bound 
+               17.5%                        11.5%                        38.8%                        32.2%                 1.6%                15.8%                        11.4%                 0.1%                        31.0%                 7.8%                        21.3%                        10.9% 
+
+      30.005630721 seconds time elapsed
+
