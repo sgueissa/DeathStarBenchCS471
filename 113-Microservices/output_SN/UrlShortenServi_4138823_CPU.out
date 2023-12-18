@@ -1,0 +1,14 @@
+WARNING: Ignored open failure for pid 629601
+WARNING: Ignored open failure for pid 629617
+WARNING: Ignored open failure for pid 629618
+WARNING: Ignored open failure for pid 629634
+WARNING: Ignored open failure for pid 629635
+
+ Performance counter stats for process id '4138823':
+
+    38,501,966,248      instructions                     #    0.60  insn per cycle            
+    63,793,997,627      cycles                                                                
+     2,834,771,922      L1-icache-load-misses                                                 
+
+      30.001905063 seconds time elapsed
+

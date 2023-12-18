@@ -1,0 +1,8 @@
+
+ Performance counter stats for process id '4137144':
+
+             Retiring      Bad Speculation       Frontend Bound        Backend Bound     Heavy Operations     Light Operations    Branch Mispredict       Machine Clears        Fetch Latency      Fetch Bandwidth         Memory Bound           Core Bound 
+                9.5%                 9.7%                        58.3%                        22.5%                 1.0%                 8.5%                 9.4%                 0.3%                        50.3%                 8.0%                17.2%                 5.3% 
+
+      30.003018744 seconds time elapsed
+

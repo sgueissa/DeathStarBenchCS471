@@ -1,0 +1,19 @@
+WARNING: Ignored open failure for pid 2211315
+WARNING: Ignored open failure for pid 2211316
+WARNING: Ignored open failure for pid 2211318
+WARNING: Ignored open failure for pid 2211317
+WARNING: Ignored open failure for pid 2211323
+WARNING: Ignored open failure for pid 2211324
+WARNING: Ignored open failure for pid 2211329
+WARNING: Ignored open failure for pid 2211330
+WARNING: Ignored open failure for pid 2211331
+WARNING: Ignored open failure for pid 2211334
+
+ Performance counter stats for process id '4138563':
+
+   178,883,487,457      instructions                     #    1.20  insn per cycle            
+   148,848,414,206      cycles                                                                
+     4,266,379,316      L1-icache-load-misses                                                 
+
+      30.001737839 seconds time elapsed
+
