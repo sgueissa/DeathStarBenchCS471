@@ -1,0 +1,10 @@
+WARNING: Ignored open failure for pid 2791512
+
+ Performance counter stats for process id '210713':
+
+     9,347,996,737      instructions                     #    0.49  insn per cycle            
+    19,075,066,886      cycles                                                                
+       994,670,702      L1-icache-load-misses                                                 
+
+      30.001870909 seconds time elapsed
+

@@ -1,0 +1,13 @@
+WARNING: Ignored open failure for pid 3041346
+WARNING: Ignored open failure for pid 3041370
+WARNING: Ignored open failure for pid 3041372
+WARNING: Ignored open failure for pid 3041373
+
+ Performance counter stats for process id '4138404':
+
+   162,349,008,998      instructions                     #    0.56  insn per cycle            
+   287,621,836,849      cycles                                                                
+    10,487,753,728      L1-icache-load-misses                                                 
+
+      30.001980438 seconds time elapsed
+

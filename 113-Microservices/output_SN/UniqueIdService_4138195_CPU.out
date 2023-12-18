@@ -1,0 +1,9 @@
+
+ Performance counter stats for process id '4138195':
+
+    11,046,410,725      instructions                     #    0.62  insn per cycle            
+    17,935,429,887      cycles                                                                
+       942,895,397      L1-icache-load-misses                                                 
+
+      30.001662124 seconds time elapsed
+

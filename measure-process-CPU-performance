@@ -11,7 +11,7 @@ PID=$1
 DURATION=$2
 DIR=$3
 
-sudo perf stat -e instructions,cycles,icache.misses -p "$PID" sleep "$DURATION" 2>&1 | tee "$DIR/$(ps -p "$PID" -o comm=)_${PID}_CPU.out"
+sudo perf stat -e instructions,cycles,L1-icache-load-misses -p "$PID" sleep "$DURATION" 2>&1 | tee "$DIR/$(ps -p "$PID" -o comm=)_${PID}_CPU.out"
 
 sudo perf stat --topdown -p $PID sleep $DURATION 2>&1 | tee "$DIR/$(ps -p $PID -o comm=)_${PID}_topdown.out"
 
