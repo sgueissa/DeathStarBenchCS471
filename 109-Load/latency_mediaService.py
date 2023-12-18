@@ -67,8 +67,8 @@ def run_load():
     return start_time, end_time
 
 def run_load_qos():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 300s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 5000"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 32 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 10000"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 300s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 3500"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 32 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 7000"
     #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 300s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
     #commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 4 -d 60s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
 
