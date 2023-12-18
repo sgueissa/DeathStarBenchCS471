@@ -44,8 +44,8 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://localhost:8080/wrk2-api/post/compose -R 500"
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 30s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://localhost:8080/wrk2-api/post/compose -R 500"
+    #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 120s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
     print("Start running load")
 
@@ -138,7 +138,7 @@ def create_latency_graph(data):
 
 def create_tail_latency_graph():
     col_name = ["tail_latency"]
-    df = pd.read_fwf('../../DeathStarBenchCS', names=col_name)
+    df = pd.read_fwf('../socialNetwork/u', names=col_name)
     df.insert(0, 'time', range(0, 0 + len(df)))
     # Replace any character that is not a digit or period with an empty string
     df['tail_latency'] = df['tail_latency'].astype(str).str.replace(r'[^\d.]', '', regex=True)
@@ -160,8 +160,8 @@ def create_tail_latency_graph():
     plt.savefig('sn_tail_latency.png', format='png', dpi=300)
 
 def main():
-    #jaeger_url = 'http://localhost:16686'
-    jaeger_url = 'http://10.90.36.43:16686'
+    jaeger_url = 'http://localhost:16686'
+    #jaeger_url = 'http://10.90.36.43:16686'
     service_name = 'nginx-web-server'
     #commandToStartDocker = "./start_socialnetwork"
 
