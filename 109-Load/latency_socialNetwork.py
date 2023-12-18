@@ -16,7 +16,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
         params = {
             'service': service_name,
             'start': cur_time,
-            'end': int(cur_time + 1e6),
+            'end': int(cur_time + 500000),
             'limit': 1500
         }
 
@@ -31,7 +31,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
             traces = data.get('data', [])
             print(f"Fetched {len(traces)} traces.")
             all_traces.extend(traces)
-            cur_time = int(cur_time + 1e6)
+            cur_time = int(cur_time + 500000)
 
         else:
             print("Received non-Json response:")
