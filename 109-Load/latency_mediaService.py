@@ -44,7 +44,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D fixed -t 1 -c 16 -d 60s -L -p -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 2000"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 16 -d 60s -L -p -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 3000"
     #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
 
     print("Start running load")
@@ -146,7 +146,7 @@ def create_latency_graph(data, tamp):
 
 def create_tail_latency_graph(tamp):
     col_name = ["tail_latency"]
-    df = pd.read_fwf('../socialNetwork/u', names=col_name)
+    df = pd.read_fwf('../mediaMicroservi', names=col_name)
     df.insert(0, 'time', range(0, 0 + len(df)))
     # Replace any character that is not a digit or period with an empty string
     df['tail_latency'] = df['tail_latency'].astype(str).str.replace(r'[^\d.]', '', regex=True)
