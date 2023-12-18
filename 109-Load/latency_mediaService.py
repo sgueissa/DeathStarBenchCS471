@@ -16,7 +16,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
         params = {
             'service': service_name,
             'start': cur_time,
-            'end': int(cur_time + 499999),
+            'end': int(cur_time + 100000),
             'limit': 1500
         }
 
@@ -31,7 +31,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
             traces = data.get('data', [])
             print(f"Fetched {len(traces)} traces.")
             all_traces.extend(traces)
-            cur_time = int(cur_time + 500000)
+            cur_time = int(cur_time + 100000)
 
         else:
             print("Received non-Json response:")
@@ -44,7 +44,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
     return all_traces
 
 def run_load():
-    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 60s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 3500"
+    commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 120s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.89.3.7:8080/wrk2-api/review/compose -R 3000"
     #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 30s -L -s ./wrk2/scripts/media-microservices/compose-review.lua http://10.90.36.43:8080/wrk2-api/review/compose -R 500"
 
     print("Start running load")
@@ -184,6 +184,8 @@ def main():
     #    exit(1)  # Exit the script with an error code
 
     start_time, end_time = run_load()
+
+    time.sleep(60)
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
