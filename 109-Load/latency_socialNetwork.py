@@ -97,7 +97,7 @@ def run_load_qos():
     return start_time, end_time
 
 
-def create_latency_graph(data):
+def create_latency_graph(data, tamp):
     spans = []
     for trace in data:
         processes = {process_id: process_info['serviceName'] for process_id, process_info in trace['processes'].items()}
@@ -137,9 +137,12 @@ def create_latency_graph(data):
         ax.set_ylabel('Duration (ms)')
 
     plt.tight_layout()
-    plt.savefig('sn_graph.png')
 
-def create_tail_latency_graph():
+    
+    filename = f"sn_{tamp}_latency.png"
+    plt.savefig(filename)
+
+def create_tail_latency_graph(tamp):
     col_name = ["tail_latency"]
     df = pd.read_fwf('../socialNetwork/u', names=col_name)
     df.insert(0, 'time', range(0, 0 + len(df)))
@@ -160,7 +163,8 @@ def create_tail_latency_graph():
     plt.yscale("log")
     
     plt.grid(True)
-    plt.savefig('sn_tail_latency.png', format='png', dpi=300)
+    filename = f"sn_{tamp}_tail_latency.png"
+    plt.savefig(filename, format='png', dpi=300)
 
 def main():
     #jaeger_url = 'http://localhost:16686'
@@ -181,8 +185,10 @@ def main():
 
     traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
-    create_latency_graph(traces)
-    create_tail_latency_graph()
+    tamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+
+    create_latency_graph(traces, tamp)
+    create_tail_latency_graph(tamp)
     
 if __name__ == '__main__':
     main()
