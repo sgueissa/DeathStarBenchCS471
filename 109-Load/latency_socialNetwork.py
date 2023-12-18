@@ -69,7 +69,7 @@ def run_load():
 
 def run_load_qos():
     commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 32 -d 300s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.89.3.7:8080/wrk2-api/post/compose -R 5000"
-    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 32 -d 45s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.89.3.7:8080/wrk2-api/post/compose -R 5000"
+    commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 32 -d 50s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.89.3.7:8080/wrk2-api/post/compose -R 5000"
     #commandToRunLoad1 = "../wrk2/wrk -D exp -t 1 -c 4 -d 300s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
     #commandToRunLoad2 = "../wrk2/wrk -D exp -t 1 -c 4 -d 60s -L -p -s ./wrk2/scripts/social-network/compose-post.lua http://10.90.36.43:8080/wrk2-api/post/compose -R 500"
 
@@ -79,7 +79,7 @@ def run_load_qos():
 
     process1 = subprocess.Popen(commandToRunLoad1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
-    time.sleep(30)
+    time.sleep(100)
 
     process2 = subprocess.Popen(commandToRunLoad2, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd="../socialNetwork")
 
