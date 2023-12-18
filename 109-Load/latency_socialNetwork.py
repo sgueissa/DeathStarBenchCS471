@@ -152,7 +152,7 @@ def create_tail_latency_graph(tamp):
     # Convert the cleaned strings back to numeric type, use errors='coerce' to handle any remaining non-numeric entries
     df['tail_latency'] = pd.to_numeric(df['tail_latency'], errors='coerce').dropna()
     df['tail_latency'] = (df['tail_latency'] / 1000).round(2)
-    df['time'] = (df['time'] / 10).round(1)
+    df['time'] = (df['time'] / 5).round(1)
 
     # Plotting
     plt.figure(figsize=(10, 6))
