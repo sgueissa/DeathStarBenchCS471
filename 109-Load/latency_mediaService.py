@@ -185,13 +185,13 @@ def main():
 
     start_time, end_time = run_load_qos()
 
-    #time.sleep(60)
+    time.sleep(60)
 
-    #traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
+    traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
     tamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
 
-    #create_latency_graph(traces, tamp)
+    create_latency_graph(traces, tamp)
     create_tail_latency_graph(tamp)
    
 if __name__ == '__main__':
