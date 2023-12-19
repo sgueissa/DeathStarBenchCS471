@@ -16,7 +16,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
         params = {
             'service': service_name,
             'start': cur_time,
-            'end': int(cur_time + 300000),
+            'end': int(cur_time + 200000),
             'limit': 1500
         }
 
@@ -31,7 +31,7 @@ def fetch_traces(jaeger_url, service_name, start_time, end_time):
             traces = data.get('data', [])
             print(f"Fetched {len(traces)} traces.")
             all_traces.extend(traces)
-            cur_time = int(cur_time + 300000)
+            cur_time = int(cur_time + 200000)
 
         else:
             print("Received non-Json response:")
@@ -154,7 +154,7 @@ def create_tail_latency_graph(tamp):
     # Convert the cleaned strings back to numeric type, use errors='coerce' to handle any remaining non-numeric entries
     df['tail_latency'] = pd.to_numeric(df['tail_latency'], errors='coerce').dropna()
     df['tail_latency'] = (df['tail_latency'] / 1000).round(2)
-    df['time'] = (df['time'] / 5).round(1)
+    df['time'] = (df['time'] / 10).round(1)
 
     # Plotting
     plt.figure(figsize=(10, 6))
@@ -185,7 +185,7 @@ def main():
 
     start_time, end_time = run_load_qos()
 
-    time.sleep(60)
+    #time.sleep(60)
 
     #traces = fetch_traces(jaeger_url, service_name, start_time, end_time)
 
